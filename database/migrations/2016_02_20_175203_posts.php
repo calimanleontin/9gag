@@ -21,7 +21,7 @@ class Posts extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->integer('category_id')->unsigned()->default(3);
+            $table->integer('category_id')->unsigned()->default(0);
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories')

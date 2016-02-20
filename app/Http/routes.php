@@ -26,6 +26,8 @@
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/','PostController@index');
+    Route::get('/trending', 'PostController@trending');
+    Route::get('/fresh', 'PostController@fresh');
 
     Route::get('/auth/login','UserController@getLogin');
     Route::post('/auth/login','UserController@postLogin');
