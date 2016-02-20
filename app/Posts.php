@@ -31,6 +31,6 @@ class Posts extends Model
     {
 //        var_dump($value);
 //        die();
-        $this->attributes['views'] = $value;
+        $this->attributes['views'] += $value;
     }
 }

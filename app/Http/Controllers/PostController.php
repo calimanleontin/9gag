@@ -38,7 +38,7 @@ class PostController extends Controller
     public function show($slug)
     {
         $post = Posts::where('slug', $slug)->first();
-        $post->views = 1;
+        $post->update(array('views' => 1));
         if($post == null)
             return redirect('/')->withErrors('The post does not exist');
         return view('post.show')->withPost($post);
