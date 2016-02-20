@@ -29,8 +29,6 @@ class Posts extends Model
 
     public function setViewsAttribute($value)
     {
-//        var_dump($value);
-//        die();
         $this->attributes['views'] += $value;
     }
 }

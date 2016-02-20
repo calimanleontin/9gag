@@ -15,12 +15,18 @@
         <div class="list-group-item">
             <p>Created at {{ $post->created_at->format('M d,Y \a\t h:i a') }} By <a href="{{ url('/user/'.$post->user_id)}}">{{ $post->user->name }}</a>
                 visited
-                @if($post->visits == 1)
+                @if($post->views == 1)
                     one single time
                 @else
                     {{$post->views}} times
                 @endif
             </p>
+            <article>
+                <img src="../images/catalog/{{$post->image}}" alt="Smiley face" class = 'img-responsive'>
+                <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-success">Up</button></a>
+                <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-warning">Down</button></a>
+
+            </article>
         </div>
         <div>
             <h2>Leave a comment</h2>

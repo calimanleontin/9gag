@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Posts;
@@ -96,6 +97,26 @@ class PostController extends Controller
 
     public function like($id)
     {
+        $post = Posts::find($id);
+        $user_id = \Auth::user()->id;
+        $rating = Rating::where('user_id',$user_id)->where('post_id',$id)->first();
+        if($rating == null)
+        {
+            $rating = new Rating();
+            $rating->likes = 1;
+            $rating->save();
+            return redirect('/gag/'.$post->slug)->withMessage('Good job');
+        }
+        if($rating->likes == true)
+        {
+            $rating->likes = false;
+            return redirect('/gag/'.$post->slug);
+        }
+        if($rating->likes = false)
+        {
+            $rating->likes = true;
+            return redirect('/gag/'.$post->slug);
+        }
 
     }
 
