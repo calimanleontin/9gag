@@ -16,7 +16,7 @@
             @foreach( $posts as $post )
                 <div class="list-group">
                     <div class="list-group-item">
-                        <h3><a href="{{ url('/'.$post->slug) }}">{{ $post->title }}</a>
+                        <h3><a href="{{ url('/gag/'.$post->slug) }}">{{ $post->title }}</a>
 
                         </h3>
                         <p>{{ $post->created_at->format('M d,Y \a\t h:i a') }}

@@ -28,6 +28,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/','PostController@index');
     Route::get('/trending', 'PostController@trending');
     Route::get('/fresh', 'PostController@fresh');
+    Route::get('/gag/{slug}', 'PostController@show');
+    Route::post('/gag/like/{id}','PostController@like');
+    Route::post('/gag/dislike/{id}','PostController@dislike');
+
 
     Route::get('/auth/login','UserController@getLogin');
     Route::post('/auth/login','UserController@postLogin');

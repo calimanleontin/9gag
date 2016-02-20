@@ -26,4 +26,11 @@ class Posts extends Model
     {
         return $this->belongsTo('App\Categories');
     }
+
+    public function setViewsAttribute($value)
+    {
+//        var_dump($value);
+//        die();
+        $this->attributes['views'] = $value;
+    }
 }

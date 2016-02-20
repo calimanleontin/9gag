@@ -29,9 +29,19 @@ class PostController extends Controller
         $posts = Posts::where('category_id',3)->where('accepted',true)->paginate(5);
         return view('home')->with('posts',$posts)->with('title','Fresh page');
     }
+
     public function create()
     {
         return view('post.create');
+    }
+
+    public function show($slug)
+    {
+        $post = Posts::where('slug', $slug)->first();
+        $post->views = 1;
+        if($post == null)
+            return redirect('/')->withErrors('The post does not exist');
+        return view('post.show')->withPost($post);
     }
 
     public function store(Request $request)
@@ -52,6 +62,7 @@ class PostController extends Controller
         $post->category_id = 3;
         $file->move($destinationPath,$name);
         $post->user_id = $user->id;
+        $post->views = 0;
         $post->save();
         return redirect('/')->withMessage('Photo saved successfully but first must be accepted');
     }
@@ -81,5 +92,15 @@ class PostController extends Controller
         $post->category_id = 3;
         $post->save();
         return redirect('/');
+    }
+
+    public function like($id)
+    {
+
+    }
+
+    public function dislike($id)
+    {
+
     }
 }
