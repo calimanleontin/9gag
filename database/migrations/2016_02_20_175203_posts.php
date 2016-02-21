@@ -33,6 +33,14 @@ class Posts extends Migration
             $table->timestamps();
 
         });
+
+        Schema::create('post_rating', function(Blueprint $table){
+            $table->increments('id');
+            $table->integer('post_id');
+            $table->integer('user_id');
+            $table->bigInteger('likes')->unsigned()->default(0);
+            $table->bigInteger('dislikes')->unsigned()->default(0);
+        });
     }
 
 

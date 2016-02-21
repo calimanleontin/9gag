@@ -7,11 +7,8 @@
     @endif
 @endsection
 @section('content')
+    @if (!empty($posts[0]))
 
-    @if (empty($posts) )
-        There are no posts.
-        Sorry
-    @else
             @foreach( $posts as $post )
                 <div class="list-group">
                     <div class="list-group-item">
@@ -33,6 +30,8 @@
             @endforeach
 
             {!! $posts->render() !!}
+        @else
+        Sorry, no photos
 
     @endif
 @endsection

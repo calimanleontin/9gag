@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Rating;
+use App\PostRating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Posts;
@@ -41,7 +41,7 @@ class PostController extends Controller
         $rating = null;
         $post = Posts::where('slug', $slug)->first();
         if(\Auth::user() != null)
-            $rating = Rating::where('user_id',\Auth::user()->id)->where('post_id', $post->id)->first();
+            $rating = PostRating::where('user_id',\Auth::user()->id)->where('post_id', $post->id)->first();
         $post->update(array('views' => 1));
         $upVotes = $post->votes > 0 ? $post->votes : 0;
         if($post == null)
@@ -117,12 +117,12 @@ class PostController extends Controller
             return redirect('/auth/login')->withErrors('You have to log in to like');
         $post = Posts::find($id);
         $user_id = \Auth::user()->id;
-        $rating = Rating::where('user_id',$user_id)->where('post_id',$id)->first();
+        $rating = PostRating::where('user_id',$user_id)->where('post_id',$id)->first();
         if($rating == null)
         {
             $post->votes = 1;
             $post->save();
-            $rating = new Rating();
+            $rating = new PostRating();
             $rating->likes = 1;
             $rating->user_id = $user_id;
             $rating->post_id = $post->id;
@@ -164,7 +164,7 @@ class PostController extends Controller
             return redirect('/auth/login')->withErrors('You have to log in to like');
         $post = Posts::find($id);
         $user_id = \Auth::user()->id;
-        $rating = Rating::where('user_id',$user_id)->where('post_id',$id)->first();
+        $rating = PostRating::where('user_id',$user_id)->where('post_id',$id)->first();
         if($rating == null)
         {
             $post->votes = -1;

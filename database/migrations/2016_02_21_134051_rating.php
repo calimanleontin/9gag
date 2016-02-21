@@ -12,7 +12,7 @@ class Rating extends Migration
      */
     public function up()
     {
-        Schema::create('rating', function(Blueprint $table){
+        Schema::create('post_rating', function(Blueprint $table){
             $table->increments('id');
             $table->integer('post_id');
             $table->integer('user_id');
