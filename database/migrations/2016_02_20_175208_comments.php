@@ -19,7 +19,7 @@ class Comments extends Migration
             $table->integer('user_id')->unsigned()->default(0);
             $table->foreign('user_id')
                 ->references('id')
-                ->on('posts')
+                ->on('users')
                 ->onDelete('cascade');
             $table->integer('post_id')->unsigned()->default(0);
             $table->foreign('post_id')

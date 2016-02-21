@@ -46,11 +46,19 @@ class PostController extends Controller
         $upVotes = $post->votes > 0 ? $post->votes : 0;
         if($post == null)
             return redirect('/')->withErrors('The post does not exist');
+        $comments = $post->comments;
         if($rating == null)
-             return view('post.show')->withPost($post)->withVotes($upVotes);
+            return view('post.show')
+                ->withPost($post)
+                ->withVotes($upVotes)
+                ->withComments($comments);
         else
         {
-            return view('post.show')->withPost($post)->withRating($rating)->withVotes($upVotes);
+            return view('post.show')
+                ->withPost($post)
+                ->withRating($rating)
+                ->withVotes($upVotes)
+                ->withComments($comments);
         }
     }
 

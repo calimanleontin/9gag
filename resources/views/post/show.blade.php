@@ -22,7 +22,8 @@
                 @endif
             </p>
             <article>
-                <img src="../images/catalog/{{$post->image}}" alt="Smiley face" class = 'img-responsive'>
+                <img src="../images/catalog/{{$post->image}}" style="width: 500px;" alt="Smiley face" class = 'img-responsive'>
+              <br>
                 @if(!Auth::guest())
                     @if(empty($rating))
                 <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-default">Up</button></a>
@@ -49,14 +50,15 @@
             <p>Login to Comment</p>
         @else
             <div class="panel-body">
-                <form method="post" action="/comment/add">
+                <form method="post" action="/gag/comment/store">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="on_post" value="{{ $post->id }}">
+                    <input type="hidden" name="post_id" value="{{ $post->id }}">
                     <input type="hidden" name="slug" value="{{ $post->slug }}">
                     <div class="form-group">
-                        <textarea required="required" placeholder="Enter comment here" name = "body" class="form-control"></textarea>
+                        <textarea required="required" placeholder="Enter comment here" name = "content" class="form-control">
+                        </textarea>
                     </div>
-                    <input type="submit" name='post_comment' class="btn btn-success" value = "Add comment"/>
+                    <input type="submit" name='post_comment' class="btn btn-default" value = "Add comment"/>
                 </form>
             </div>
         @endif
@@ -67,11 +69,11 @@
                         <li class="panel-body">
                             <div class="list-group">
                                 <div class="list-group-item">
-                                    <h3>{{ $comment->author->name }}</h3>
+                                    By<h4>{{ $comment->user->name }}</h4>
                                     <p>{{ $comment->created_at->format('M d,Y \a\t h:i a') }}</p>
                                 </div>
                                 <div class="list-group-item">
-                                    <p>{{ $comment->body }}</p>
+                                    <p>{!! $comment->content !!}</p>
                                     @if(!Auth::guest() && ($comment->from_user == Auth::user()->id || Auth::user()->is_admin() || Auth::user()->is_moderator() ))
                                         <a href="{{  url('comment/delete/'.$comment->id) }}" class="btn btn-danger">Delete comment</a>
                                     @endif
@@ -80,6 +82,8 @@
                         </li>
                     @endforeach
                 </ul>
+            @else
+                There are no comments. Please say something nice.
             @endif
             @endif
         </div>

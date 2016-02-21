@@ -32,6 +32,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/gag/post/dislike/{id}','PostController@dislike');
     Route::get('/gag/{slug}', 'PostController@show');
 
+    Route::post('/gag/comment/store','CommentController@store');
+
 
     Route::get('/auth/login','UserController@getLogin');
     Route::post('/auth/login','UserController@postLogin');
