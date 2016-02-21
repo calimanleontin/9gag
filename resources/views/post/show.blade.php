@@ -38,6 +38,7 @@
                         <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-default">Down</button></a>
                     @endif
                     @endif
+                No votes: {{$votes}}
 
             </article>
         </div>

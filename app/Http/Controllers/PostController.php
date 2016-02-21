@@ -43,13 +43,19 @@ class PostController extends Controller
         if(\Auth::user() != null)
             $rating = Rating::where('user_id',\Auth::user()->id)->where('post_id', $post->id)->first();
         $post->update(array('views' => 1));
+        $upVotes = 0;
+        $votes = Rating::where('post_id',$post->id)->get();
+        foreach($votes as $vote)
+            $upVotes += $vote->likes - $vote->dislikes;
+        $upVotes = $upVotes > 0 ? $upVotes : 0;
         if($post == null)
             return redirect('/')->withErrors('The post does not exist');
         if($rating == null)
-             return view('post.show')->withPost($post);
+             return view('post.show')->withPost($post)->withVotes($upVotes);
         else
-            return view('post.show')->withPost($post)->withRating($rating);
-
+        {
+            return view('post.show')->withPost($post)->withRating($rating)->withVotes($upVotes);
+        }
     }
 
     public function store(Request $request)
