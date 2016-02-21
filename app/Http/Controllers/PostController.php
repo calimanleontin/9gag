@@ -97,31 +97,71 @@ class PostController extends Controller
 
     public function like($id)
     {
+        if(\Auth::user() == null)
+            return redirect('/auth/login')->withErrors('You have to log in to like');
+        $post = Posts::find($id);
+        $user_id = \Auth::user()->id;
+        $rating = Rating::where('user_id',$user_id)->where('post_id',$id)->first();
+//        var_dump($rating->user_id);
+//        var_dump($rating->post_id);
+        var_dump($rating->likes);
+
+        if($rating == null)
+        {
+            $rating = new Rating();
+            $rating->likes = 1;
+            $rating->user_id = $user_id;
+            $rating->post_id = $post->id;
+            $rating->save();
+            return redirect('/gag/'.$post->slug)->withMessage('Good job');
+        }
+        if($rating->likes == 1)
+        {
+            $rating->likes = 0;
+            $rating->dislikes = 0;
+            $rating->save();
+            return redirect('/gag/'.$post->slug);
+        }
+        if($rating->likes == 0)
+        {
+            $rating->likes = 1;
+            $rating->dislikes = 0;
+            $rating->save();
+            return redirect('/gag/'.$post->slug);
+        }
+    }
+
+    public function dislike($id)
+    {
+        if(\Auth::user() == null)
+            return redirect('/auth/login')->withErrors('You have to log in to like');
         $post = Posts::find($id);
         $user_id = \Auth::user()->id;
         $rating = Rating::where('user_id',$user_id)->where('post_id',$id)->first();
         if($rating == null)
         {
             $rating = new Rating();
-            $rating->likes = 1;
+            $rating->user_id = $user_id;
+            $rating->post_id = $post->id;
+            $rating->dislikes = 1;
             $rating->save();
             return redirect('/gag/'.$post->slug)->withMessage('Good job');
         }
-        if($rating->likes == true)
-        {
-            $rating->likes = false;
-            return redirect('/gag/'.$post->slug);
-        }
-        if($rating->likes = false)
-        {
-            $rating->likes = true;
-            return redirect('/gag/'.$post->slug);
-        }
-
-    }
-
-    public function dislike($id)
-    {
-
+        else
+            if($rating->dislikes == 1)
+            {
+                $rating->likes = 0;
+                $rating->dislikes = 0;
+                $rating->save();
+                return redirect('/gag/'.$post->slug);
+            }
+            else
+                if($rating->dislikes == 0)
+                {
+                    $rating->likes = 0;
+                    $rating->dislikes = 1;
+                    $rating->save();
+                    return redirect('/gag/'.$post->slug);
+                }
     }
 }

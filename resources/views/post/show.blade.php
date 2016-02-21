@@ -23,8 +23,10 @@
             </p>
             <article>
                 <img src="../images/catalog/{{$post->image}}" alt="Smiley face" class = 'img-responsive'>
+                @if(!Auth::guest())
                 <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-success">Up</button></a>
                 <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-warning">Down</button></a>
+                    @endif
 
             </article>
         </div>
