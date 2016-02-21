@@ -24,8 +24,19 @@
             <article>
                 <img src="../images/catalog/{{$post->image}}" alt="Smiley face" class = 'img-responsive'>
                 @if(!Auth::guest())
-                <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-success">Up</button></a>
-                <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-warning">Down</button></a>
+                    @if(empty($rating))
+                <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-default">Up</button></a>
+                <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-default">Down</button></a>
+                    @elseif($rating->likes == 1 and $rating->dislikes == 0)
+                        <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-success">Up</button></a>
+                        <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-default">Down</button></a>
+                    @elseif($rating->likes == 0 and $rating->dislikes == 1)
+                        <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-default">Up</button></a>
+                        <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-success">Down</button></a>
+                    @else
+                        <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-default">Up</button></a>
+                        <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-default">Down</button></a>
+                    @endif
                     @endif
 
             </article>

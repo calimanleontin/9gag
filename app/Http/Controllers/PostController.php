@@ -38,11 +38,18 @@ class PostController extends Controller
 
     public function show($slug)
     {
+        $rating = null;
         $post = Posts::where('slug', $slug)->first();
+        if(\Auth::user() != null)
+            $rating = Rating::where('user_id',\Auth::user()->id)->where('post_id', $post->id)->first();
         $post->update(array('views' => 1));
         if($post == null)
             return redirect('/')->withErrors('The post does not exist');
-        return view('post.show')->withPost($post);
+        if($rating == null)
+             return view('post.show')->withPost($post);
+        else
+            return view('post.show')->withPost($post)->withRating($rating);
+
     }
 
     public function store(Request $request)
@@ -102,10 +109,6 @@ class PostController extends Controller
         $post = Posts::find($id);
         $user_id = \Auth::user()->id;
         $rating = Rating::where('user_id',$user_id)->where('post_id',$id)->first();
-//        var_dump($rating->user_id);
-//        var_dump($rating->post_id);
-        var_dump($rating->likes);
-
         if($rating == null)
         {
             $rating = new Rating();
