@@ -28,20 +28,11 @@ class Posts extends Migration
                 ->onDelete('cascade');
             $table->string('image');
             $table->bigInteger('views')->default(0);
-
+            $table->bigInteger('votes')->default(0);
             $table->boolean('accepted')->default(false);
             $table->timestamps();
 
         });
-
-        Schema::create('rating', function(Blueprint $table){
-            $table->increments('id');
-            $table->integer('post_id');
-            $table->integer('user_id');
-            $table->bigInteger('likes')->unsigned()->default(0);
-            $table->bigInteger('dislikes')->unsigned()->default(0);
-        });
-
     }
 
 

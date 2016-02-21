@@ -43,11 +43,7 @@ class PostController extends Controller
         if(\Auth::user() != null)
             $rating = Rating::where('user_id',\Auth::user()->id)->where('post_id', $post->id)->first();
         $post->update(array('views' => 1));
-        $upVotes = 0;
-        $votes = Rating::where('post_id',$post->id)->get();
-        foreach($votes as $vote)
-            $upVotes += $vote->likes - $vote->dislikes;
-        $upVotes = $upVotes > 0 ? $upVotes : 0;
+        $upVotes = $post->votes > 0 ? $post->votes : 0;
         if($post == null)
             return redirect('/')->withErrors('The post does not exist');
         if($rating == null)
@@ -76,7 +72,6 @@ class PostController extends Controller
         $post->category_id = 3;
         $file->move($destinationPath,$name);
         $post->user_id = $user->id;
-        $post->views = 0;
         $post->save();
         return redirect('/')->withMessage('Photo saved successfully but first must be accepted');
     }
@@ -117,6 +112,8 @@ class PostController extends Controller
         $rating = Rating::where('user_id',$user_id)->where('post_id',$id)->first();
         if($rating == null)
         {
+            $post->votes = 1;
+            $post->save();
             $rating = new Rating();
             $rating->likes = 1;
             $rating->user_id = $user_id;
@@ -126,6 +123,8 @@ class PostController extends Controller
         }
         if($rating->likes == 1)
         {
+            $post->votes -= 1;
+            $post->save();
             $rating->likes = 0;
             $rating->dislikes = 0;
             $rating->save();
@@ -133,6 +132,17 @@ class PostController extends Controller
         }
         if($rating->likes == 0)
         {
+            if($rating->dislikes == 1)
+            {
+                $post->votes += 2;
+                $post->save();
+
+            }
+            else
+            {
+                $post->votes += 1;
+                $post->save();
+            }
             $rating->likes = 1;
             $rating->dislikes = 0;
             $rating->save();
@@ -149,6 +159,8 @@ class PostController extends Controller
         $rating = Rating::where('user_id',$user_id)->where('post_id',$id)->first();
         if($rating == null)
         {
+            $post->votes = -1;
+            $post->save();
             $rating = new Rating();
             $rating->user_id = $user_id;
             $rating->post_id = $post->id;
@@ -156,21 +168,32 @@ class PostController extends Controller
             $rating->save();
             return redirect('/gag/'.$post->slug)->withMessage('Good job');
         }
-        else
-            if($rating->dislikes == 1)
+        if($rating->dislikes == 1)
+        {
+            $post->votes += 1;
+            $post->save();
+            $rating->likes = 0;
+            $rating->dislikes = 0;
+            $rating->save();
+            return redirect('/gag/'.$post->slug);
+        }
+        if($rating->dislikes == 0)
+        {
+            if($rating->likes == 1)
             {
-                $rating->likes = 0;
-                $rating->dislikes = 0;
-                $rating->save();
-                return redirect('/gag/'.$post->slug);
+                $post->votes -= 2;
+                $post->save();
             }
             else
-                if($rating->dislikes == 0)
-                {
-                    $rating->likes = 0;
-                    $rating->dislikes = 1;
-                    $rating->save();
-                    return redirect('/gag/'.$post->slug);
-                }
+            {
+                $post->votes -= 1;
+                $post->save();
+
+            }
+            $rating->likes = 0;
+            $rating->dislikes = 1;
+            $rating->save();
+            return redirect('/gag/'.$post->slug);
+        }
     }
 }
