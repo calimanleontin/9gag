@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\CommentRating;
 use App\Comments;
+use App\Posts;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class CommentController extends Controller
@@ -27,6 +30,114 @@ class CommentController extends Controller
         $comment->content = $content;
         $comment->save();
         return redirect('/gag/'.$slug)->withMessage('Comment added successfully');
+    }
 
+    public function like($post_id, $comment_id)
+    {
+        $user = Auth::user();
+        if($user == null)
+            return redirect('/')->withErrors('You are not logged in');
+        $comment = Comments::find($comment_id);
+        $post = Posts::find($post_id);
+        if($post == null)
+            return redirect('/')->withErrors('Post does not exist');
+        if($comment == null)
+            return redirect ('/gag/'.$post->slug)->withErrors('Comment does not exist');
+        $rating = CommentRating::where('comment_id', $comment->id)->where('user_id', $user->id)->first();
+
+        if($rating == null)
+        {
+            $comment->votes = 1;
+            $comment->save();
+            $rating = new CommentRating();
+            $rating->likes = 1;
+            $rating->user_id = $user->id;
+            $rating->comment_id = $comment->id;
+            $rating->save();
+            return redirect('/gag/'.$post->slug)->withMessage('Success');
+        }
+        if($rating->likes == 1)
+        {
+            $comment->votes -= 1;
+            $comment->save();
+            $rating->likes = 0;
+            $rating->dislikes = 0;
+            $rating->save();
+            return redirect('/gag/'.$post->slug)->withMessage('Success');
+        }
+        if($rating->likes == 0)
+        {
+            if($rating->dislikes == 1)
+            {
+                $comment->votes += 2;
+                $comment->save();
+            }
+            else
+            {
+                $comment->votes += 1;
+                $comment->save();
+            }
+            $rating->likes = 1;
+            $rating->dislikes= 0;
+            $rating->save();
+            return redirect('/gag/'.$post->slug)->withMessage('Success');
+        }
+
+    }
+
+    public function dislike($post_id, $comment_id)
+    {
+        $user = Auth::user();
+        if($user == null)
+            return redirect('/')->withErrors('You are not logged in');
+        $comment = Comments::find($comment_id);
+        $post = Posts::find($post_id);
+        if($post == null)
+            return redirect('/')->withErrors('Post does not exist');
+        if($comment == null)
+            return redirect ('/gag/'.$post->slug)->withErrors('Comment does not exist');
+        $rating = CommentRating::where('comment_id', $comment->id)->where('user_id', $user->id)->first();
+
+        if($rating == null)
+        {
+            $comment->votes = -1;
+            $comment->save();
+
+            $rating = new CommentRating();
+            $rating->comment_id = $comment->id;
+            $rating->user_id = $user->id;
+            $rating->dislikes = 1;
+            $rating->save();
+            return redirect('/gag/'.$post->slug)->withMessage('Success');
+        }
+
+        if($rating->dislikes == 1)
+        {
+            $comment->votes += 1;
+            $comment->save();
+
+            $rating->dislikes = 0;
+            $rating->likes = 0;
+            $rating->save();
+            return redirect('/gag/'.$post->slug)->withMessage('Success');
+        }
+
+        if($rating->dislikes == 0)
+        {
+            if($rating->likes == 1)
+            {
+                $comment->votes -= 2;
+                $comment->save();
+            }
+            else
+            {
+                $comment->votes -= 1;
+                $comment->save();
+            }
+            $rating->dislikes = 1;
+            $rating->likes = 0;
+            $rating->save();
+            return redirect('/gag/'.$post->slug)->withMessage('Success');
+        }
     }
 }

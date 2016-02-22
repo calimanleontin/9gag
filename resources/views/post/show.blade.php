@@ -85,22 +85,29 @@
                                 @if(!Auth::guest() && ($comment->user_id == Auth::user()->id || Auth::user()->is_admin()))
                                     <div class="list-group-item">
                                         @if(!Auth::guest())
-                                            @if(empty($commentrating))
-                                                <a href="/gag/comment/like/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
-                                                <a href="/gag/comment/dislike/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                            {{--{!! $commentrating = $comment->getRating($comment->id, Auth::user()->id) !!}--}}
+                                            <?php $commentrating = $comment->getRating($comment->id, Auth::user()->id);  ?>
+                                            @if($commentrating == null)
+                                                <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                <a href="/gag/comment/dislike/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                                             @elseif($commentrating->likes == 1 and $commentrating->dislikes == 0)
-                                                <a href="/gag/comment/like/{{$comment->id}}"><span class=" glyphicon glyphicon-thumbs-up" green></span></a>
-                                                <a href="/gag/comment/dislike/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                                <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class=" glyphicon glyphicon-thumbs-up green" ></span></a>
+                                                <a href="/gag/comment/dislike/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                                             @elseif($commentrating->likes == 0 and $commentrating->dislikes == 1)
-                                                <a href="/gag/comment/like/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
-                                                <a href="/gag/comment/dislike/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down red"></span></a>
+                                                <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                <a href="/gag/comment/dislike/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down red"></span></a>
                                             @else
 
-                                                <a href="/gag/comment/like/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
-                                                <a href="/gag/comment/dislike/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                                <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                <a href="/gag/comment/dislike/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                                             @endif
                                         @endif
-                                        No votes: {{$votes}}<p>
+                                        No votes:
+                                            @if($comment->votes <0)
+                                                0
+                                            @else
+                                            {{$comment->votes}}
+                                                @endif<p>
                                         {!! Form::open(array('url'=>'/response/store', 'method'=>'POST', 'files'=>true, 'id' => 'id'.$comment->id)) !!}
 
                                         {!! Form::token() !!}

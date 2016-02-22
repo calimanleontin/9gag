@@ -33,8 +33,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/gag/{slug}', 'PostController@show');
 
     Route::post('/gag/comment/store','CommentController@store');
-    Route::get('/gag/comment/like/{id}','CommentController@like');
-    Route::get('/gag/comment/dislike/{id}','CommentController@dislike');
+    Route::get('/gag/comment/like/{post_id}/{comment_id}','CommentController@like');
+    Route::get('/gag/comment/dislike/{post_id}/{comment_id}','CommentController@dislike');
 
     Route::post('/response/store', 'ResponseController@store');
 

@@ -21,4 +21,10 @@ class Comments extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function getRating($comment_id, $user_id)
+    {
+        $rating = CommentRating::where('comment_id',$comment_id)->where('user_id', $user_id)->first();
+        return $rating;
+    }
 }

@@ -125,6 +125,8 @@ class PostController extends Controller
         if(\Auth::user() == null)
             return redirect('/auth/login')->withErrors('You have to log in to like');
         $post = Posts::find($id);
+        if($post == null)
+            return redirect('/')->withErrors('Post does not exist');
         $user_id = \Auth::user()->id;
         $rating = PostRating::where('user_id',$user_id)->where('post_id',$id)->first();
         if($rating == null)
@@ -172,6 +174,8 @@ class PostController extends Controller
         if(\Auth::user() == null)
             return redirect('/auth/login')->withErrors('You are not logged in');
         $post = Posts::find($id);
+        if($post == null)
+            return redirect('/')->withErrors('Post does not exist');
         $user_id = \Auth::user()->id;
         $rating = PostRating::where('user_id',$user_id)->where('post_id',$id)->first();
         if($rating == null)

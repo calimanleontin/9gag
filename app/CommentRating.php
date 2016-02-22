@@ -7,6 +7,7 @@ class CommentRating extends Model
 {
     protected $guarded = [];
     public $table = 'comment_rating';
+    public $timestamps = false;
 
     public function user()
     {
