@@ -8,6 +8,15 @@ html {
   padding-top:5px;
   font-size: 18px;
 }
+.green {
+  color: green;
+}
+.gray{
+  color:gray;
+}
+.red{
+  color:red;
+}
 .left{
   float:left;
 }
@@ -665,9 +674,11 @@ th {
   content: "\e124";
 }
 .glyphicon-thumbs-up:before {
+  font-size: large;
   content: "\e125";
 }
 .glyphicon-thumbs-down:before {
+  font-size: large;
   content: "\e126";
 }
 .glyphicon-hand-right:before {

@@ -23,8 +23,5 @@ class ResponseController extends Controller
         $response->user_id = $user->id;
         $response->save();
         return redirect('/gag/'.Input::get('post_slug'))->withMessage('Replay saved.');
-
-        die();
-
     }
 }

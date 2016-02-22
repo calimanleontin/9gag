@@ -29,17 +29,18 @@
               <br>
                 @if(!Auth::guest())
                     @if(empty($rating))
-                <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-default">Up</button></a>
-                <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-default">Down</button></a>
+                <a href="/gag/post/like/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                <a href="/gag/post/dislike/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                     @elseif($rating->likes == 1 and $rating->dislikes == 0)
-                        <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-success">Up</button></a>
-                        <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-default">Down</button></a>
+                        <a href="/gag/post/like/{{$post->id}}"><span class=" glyphicon glyphicon-thumbs-up" green></span></a>
+                        <a href="/gag/post/dislike/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                     @elseif($rating->likes == 0 and $rating->dislikes == 1)
-                        <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-default">Up</button></a>
-                        <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-success">Down</button></a>
+                        <a href="/gag/post/like/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                        <a href="/gag/post/dislike/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-down red"></span></a>
                     @else
-                        <a href="/gag/post/like/{{$post->id}}"><button class="btn btn-default">Up</button></a>
-                        <a href="/gag/post/dislike/{{$post->id}}"><button class="btn btn-default">Down</button></a>
+
+                        <a href="/gag/post/like/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                        <a href="/gag/post/dislike/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                     @endif
                     @endif
                 No votes: {{$votes}}
@@ -79,6 +80,7 @@
                                 </div>
                                 <div class="list-group-item">
                                     <p>{!! $comment->content !!}</p>
+
                                 </div>
                                 @if(!Auth::guest() && ($comment->user_id == Auth::user()->id || Auth::user()->is_admin()))
                                     <div class="list-group-item">

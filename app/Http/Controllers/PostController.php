@@ -178,7 +178,7 @@ class PostController extends Controller
         {
             $post->votes = -1;
             $post->save();
-            $rating = new Rating();
+            $rating = new PostRating();
             $rating->user_id = $user_id;
             $rating->post_id = $post->id;
             $rating->dislikes = 1;
