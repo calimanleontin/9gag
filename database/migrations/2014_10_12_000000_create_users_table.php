@@ -18,9 +18,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password', 60);
             $table->rememberToken();
-            $table->string('image');
             $table->bigInteger('noComments');
             $table->enum('role',['admin','subscriber','moderator'])->default('admin');
+            $table->string('facebook_id')->unique();
+            $table->string('avatar');
             $table->timestamps();
         });
     }

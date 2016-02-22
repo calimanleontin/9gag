@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Posts;
 use App\User;
+use App\Categories;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -161,7 +162,7 @@ class PostController extends Controller
     public function dislike($id)
     {
         if(\Auth::user() == null)
-            return redirect('/auth/login')->withErrors('You have to log in to like');
+            return redirect('/auth/login')->withErrors('You are not logged in');
         $post = Posts::find($id);
         $user_id = \Auth::user()->id;
         $rating = PostRating::where('user_id',$user_id)->where('post_id',$id)->first();
@@ -204,4 +205,22 @@ class PostController extends Controller
             return redirect('/gag/'.$post->slug);
         }
     }
+
+    public function makeCategories()
+    {
+        $category = new Categories();
+        $category->name = 'Hot';
+        $category->save();
+
+        $category = new Categories();
+        $category->name = 'Trending';
+        $category->save();
+
+        $category = new Categories();
+        $category->name = 'Fresh';
+        $category->save();
+
+        return redirect('/')->withMessage('Done!');
+    }
+
 }

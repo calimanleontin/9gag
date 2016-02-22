@@ -13,6 +13,23 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '928802613864066',
+                xfbml      : true,
+                version    : 'v2.5'
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -51,6 +68,10 @@
                     <a href="{{ url('/fresh') }}">Fresh</a>
                 </li>
 
+                <li>
+                    <a href="{{ url('/make-categories') }}">Fa categorii</a>
+                </li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right list-inline">
                 @if (Auth::guest())
@@ -59,6 +80,10 @@
                     </li>
                     <li>
                         <a href="{{ url('/auth/register') }}">Register</a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url('/auth/facebook') }}">Login with facebook</a>
                     </li>
             </ul>
 

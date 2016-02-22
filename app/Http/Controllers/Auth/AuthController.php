@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
+use Socialite;
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -31,6 +33,68 @@ class AuthController extends Controller
     protected $redirectTo = '/';
 
     /**
+     * Redirect the user to the Facebook authentication page.
+     *
+     * @return Response
+     */
+    public function redirectToProvider()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Facebook.
+     *
+     * @return Response
+     */
+    public function handleProviderCallback()
+    {
+        try {
+            $user = Socialite::driver('facebook')->user();
+        } catch (Exception $e) {
+            return redirect('auth/facebook');
+        }
+
+        $authUser = $this->findOrCreateUser($user);
+
+        Auth::login($authUser, true);
+
+        return redirect('/')->withMessage('Login successful');
+    }
+
+    /**
+     * Return user if exists; create and return if doesn't
+     *
+     * @param $facebookUser
+     * @return User
+     */
+    private function findOrCreateUser($facebookUser)
+    {
+        $authUser = User::where('facebook_id', $facebookUser->id)->first();
+//        var_dump($facebookUser->id);
+//        die();
+
+        if ($authUser) {
+            return $authUser;
+        }
+        $user = new User();
+        $user->name = $facebookUser->name;
+        $user->email = $facebookUser->email;
+        $user->facebook_id = $facebookUser->id;
+        $user->avatar = $facebookUser->avatar;
+        $user->save();
+        return $user;
+
+//        return User::create([
+//            'name' => $facebookUser->name,
+//            'email' => $facebookUser->email,
+//            'facebook_id' => $facebookUser->id,
+//            'avatar' => $facebookUser->avatar
+//        ]);
+    }
+
+
+        /**
      * Create a new authentication controller instance.
      *
      * @return void
