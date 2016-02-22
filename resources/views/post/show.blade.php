@@ -88,6 +88,10 @@
 
                                             {!! Form::token() !!}
 
+                                            {!! Form::hidden('comment_id', $comment->id) !!}
+
+                                            {!! Form::hidden('post_slug', $post->slug) !!}
+
                                             <div class="form-group">
                                                 {!! Form::label('content','Reply') !!}
                                                 {!! Form::textarea('content','',['class'=>'form-control']) !!}

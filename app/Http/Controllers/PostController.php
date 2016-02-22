@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comments;
 use App\PostRating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -41,6 +42,8 @@ class PostController extends Controller
     {
         $rating = null;
         $post = Posts::where('slug', $slug)->first();
+        if($post == null)
+            return redirect('/')->withErrors('The post does not exist.');
         if(\Auth::user() != null)
             $rating = PostRating::where('user_id',\Auth::user()->id)->where('post_id', $post->id)->first();
         $post->update(array('views' => 1));
@@ -65,6 +68,9 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        $comment = Comments::find(1);
+        if($comment == null)
+            return redirect('/make-categories')->withErrors('Dude you forget the categories. Again.');
         $title = $request->input('title');
         $file = Input::file('image');
         $user = $request->user();

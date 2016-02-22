@@ -34,6 +34,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::post('/gag/comment/store','CommentController@store');
 
+    Route::post('/response/store', 'ResponseController@store');
+
 
     Route::get('/auth/login','UserController@getLogin');
     Route::post('/auth/login','UserController@postLogin');

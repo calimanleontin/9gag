@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class Responses extends Model
 {
     protected $guarded = [];
+    protected $table = 'comments_responses';
 
     public function user()
     {

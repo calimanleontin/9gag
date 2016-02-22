@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Responses extends Migration
+class CommentsResponses extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class Responses extends Migration
      */
     public function up()
     {
-        Schema::create('responses',function(Blueprint $table){
+        Schema::create('comments_responses',function(Blueprint $table){
 
             $table->integer('id');
             $table->text('content');
@@ -37,6 +37,6 @@ class Responses extends Migration
      */
     public function down()
     {
-        Schema::drop('responses');
+        Schema::delete('comments-responses');
     }
 }
