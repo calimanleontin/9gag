@@ -84,17 +84,32 @@
                                 </div>
                                 @if(!Auth::guest() && ($comment->user_id == Auth::user()->id || Auth::user()->is_admin()))
                                     <div class="list-group-item">
+                                        @if(!Auth::guest())
+                                            @if(empty($commentrating))
+                                                <a href="/gag/comment/like/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                <a href="/gag/comment/dislike/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                            @elseif($commentrating->likes == 1 and $commentrating->dislikes == 0)
+                                                <a href="/gag/comment/like/{{$comment->id}}"><span class=" glyphicon glyphicon-thumbs-up" green></span></a>
+                                                <a href="/gag/comment/dislike/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                            @elseif($commentrating->likes == 0 and $commentrating->dislikes == 1)
+                                                <a href="/gag/comment/like/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                <a href="/gag/comment/dislike/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down red"></span></a>
+                                            @else
 
-                                        <p>
-                                            {!! Form::open(array('url'=>'/response/store', 'method'=>'POST', 'files'=>true, 'id' => 'id'.$comment->id)) !!}
+                                                <a href="/gag/comment/like/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                <a href="/gag/comment/dislike/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                            @endif
+                                        @endif
+                                        No votes: {{$votes}}<p>
+                                        {!! Form::open(array('url'=>'/response/store', 'method'=>'POST', 'files'=>true, 'id' => 'id'.$comment->id)) !!}
 
-                                            {!! Form::token() !!}
+                                        {!! Form::token() !!}
 
-                                            {!! Form::hidden('comment_id', $comment->id) !!}
+                                        {!! Form::hidden('comment_id', $comment->id) !!}
 
-                                            {!! Form::hidden('post_slug', $post->slug) !!}
+                                        {!! Form::hidden('post_slug', $post->slug) !!}
 
-                                            <div class="form-group">
+                                        <div class="form-group">
                                                 {!! Form::label('content','Reply') !!}
                                                 {!! Form::textarea('content','',['class'=>'form-control']) !!}
                                             </div>
@@ -107,7 +122,9 @@
                                         {!! Form::close() !!}
                                         </p>
 
-                                        <p class="response-btn" id="show{{$comment->id}}" onclick='showForm({{$comment->id}})'>Add a response</p>
+                                        <p class="response-btn" id="show{{$comment->id}}" onclick='showForm({{$comment->id}})'>
+                                            Replay
+                                        </p>
                                         </p>
                                     </div>
                                 @endif
