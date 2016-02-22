@@ -25,8 +25,6 @@ class CommentController extends Controller
         $user_id = $request->user()->id;
         $comment->user_id = $user_id;
         $comment->content = $content;
-        $comment->likes = 0;
-        $comment->dislikes = 0;
         $comment->save();
         return redirect('/gag/'.$slug)->withMessage('Comment added successfully');
 

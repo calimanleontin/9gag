@@ -13,7 +13,10 @@
         <div>
         </div>
         <div class="list-group-item">
-            <p>Created at {{ $post->created_at->format('M d,Y \a\t h:i a') }} By <a href="{{ url('/user/'.$post->user_id)}}">{{ $post->user->name }}</a>
+            <p>Created at {{ $post->created_at->format('M d,Y \a\t h:i a') }}
+                </br>
+                </br>
+                By <a href="{{ url('/user/'.$post->user_id)}}">{{ $post->user->name }}</a>
                 visited
                 @if($post->views == 1)
                     one single time
@@ -71,13 +74,38 @@
                                 <div class="list-group-item">
                                     By<h4>{{ $comment->user->name }}</h4>
                                     <p>{{ $comment->created_at->format('M d,Y \a\t h:i a') }}</p>
+                                    <a href="{{  url('comment/delete/'.$comment->id) }}" class="btn btn-danger">Delete</a>
+
                                 </div>
                                 <div class="list-group-item">
                                     <p>{!! $comment->content !!}</p>
-                                    @if(!Auth::guest() && ($comment->from_user == Auth::user()->id || Auth::user()->is_admin() || Auth::user()->is_moderator() ))
-                                        <a href="{{  url('comment/delete/'.$comment->id) }}" class="btn btn-danger">Delete comment</a>
-                                    @endif
                                 </div>
+                                @if(!Auth::guest() && ($comment->user_id == Auth::user()->id || Auth::user()->is_admin()))
+                                    <div class="list-group-item">
+
+                                        <p>
+                                            {!! Form::open(array('url'=>'/response/store', 'method'=>'POST', 'files'=>true, 'id' => 'id'.$comment->id)) !!}
+
+                                            {!! Form::token() !!}
+
+                                            <div class="form-group">
+                                                {!! Form::label('content','Reply') !!}
+                                                {!! Form::textarea('content','',['class'=>'form-control']) !!}
+                                            </div>
+
+                                        <div class="form-group">
+                                            {!!  Form::submit('Replay',['class'=> 'btn btn-default'])!!}
+                                        </div>
+
+
+                                        {!! Form::close() !!}
+                                        </p>
+
+                                        <p class="response-btn" id="show{{$comment->id}}" onclick='showForm({{$comment->id}})'>Add a response</p>
+                                        </p>
+                                    </div>
+                                @endif
+
                             </div>
                         </li>
                     @endforeach

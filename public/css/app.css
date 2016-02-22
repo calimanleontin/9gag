@@ -11,6 +11,16 @@ html {
 .left{
   float:left;
 }
+p.response-btn
+{
+  color: #2e6da4;
+}
+p.response-btn:hover
+{
+  color: #2e6da4;
+  text-decoration:underline;
+  cursor: pointer;
+}
 body {
   margin: 0;
 }
