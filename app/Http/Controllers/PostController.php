@@ -100,7 +100,8 @@ class PostController extends Controller
     {
         $post = Posts::where('id',$id)->first();
         $post->delete();
-        return redirect('/');
+        return redirect('/post/manage')
+            ->withMessage('deleted');
     }
 
     public function accept(Request $request, $id)
@@ -109,7 +110,8 @@ class PostController extends Controller
         $post->accepted = true;
         $post->category_id = 3;
         $post->save();
-        return redirect('/');
+        return redirect('/post/manage')
+            ->withMessage('accepted');
     }
 
     public function like($id)
