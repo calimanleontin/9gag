@@ -35,9 +35,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/gag/comment/store','CommentController@store');
     Route::get('/gag/comment/like/{post_id}/{comment_id}','CommentController@like');
     Route::get('/gag/comment/dislike/{post_id}/{comment_id}','CommentController@dislike');
+    Route::get('/gag/comment/delete/{id}', 'CommentController@delete');
 
-    Route::post('/response/store', 'ResponseController@store');
-    Route::get('response/delete/{id}', 'ResponseController@delete');
+    Route::post('/gag/response/store', 'ResponseController@store');
+    Route::get('/gag/response/like/{id}','ResponseController@like');
+    Route::get('/gag/response/dislike/{id}','ResponseController@dislike');
+    Route::get('gag/response/delete/{id}', 'ResponseController@delete');
 
 
     Route::get('/auth/login','UserController@getLogin');
