@@ -22,6 +22,10 @@ html {
   max-width:200px;
   max-height:200px;
 }
+.search-down
+{
+  margin-top:8px;
+}
 .red{
   color:red;
 }

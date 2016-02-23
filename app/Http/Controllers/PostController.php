@@ -230,7 +230,6 @@ class PostController extends Controller
         if($post->votes < 5)
             $post->category_id = 3;
 
-
         if($post->votes >= 5)
             $post->category_id = 2;
 
@@ -240,6 +239,15 @@ class PostController extends Controller
 
         return redirect('/gag/'.$post->slug);
 
+    }
+
+    public function search(Request $request)
+    {
+        $q = $request->get('q');
+        $posts = Posts::where('title','like','%'.$q.'%')->paginate(5);
+        return view('home')
+            ->withPosts($posts)
+            ->withTitle('Search result');
     }
 
     public function makeCategories()

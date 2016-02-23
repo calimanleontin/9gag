@@ -80,6 +80,13 @@
                     <a href="{{ url('/make-categories') }}">Fa categorii</a>
                 </li>
 
+                <li>
+                    <form action="/search" method = 'get' class="form-group form form-inline search-down">
+                        <input type="text" name="q" placeholder="Search..." class="form-control">
+                        <input type="submit" class='form-control left-search' value="Search">
+                    </form>
+                </li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right list-inline">
                 @if (Auth::guest())
