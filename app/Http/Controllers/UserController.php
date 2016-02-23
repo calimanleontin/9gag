@@ -105,8 +105,22 @@ class UserController extends Controller
         $oldPassword = Input::get('oldPassword');
         $newPassword = Input::get('newPassword');
         $confirm = Input::get('confirm');
+        if($user->password == '')
+        {
+            if($newPassword != $confirm)
+            {
+                return redirect('/auth/change-password')->withErrors('Passwords does not match');
+            }
+            else
+            {
+                $newPassword = bcrypt($newPassword);
+                $user->password = $newPassword;
+                $user->save();
+                return redirect('/auth/profile')->withMessage('Password changed successfully');
+            }
+        }
 
-        if(Hash::check($oldPassword, $user->password))
+            if(Hash::check($oldPassword, $user->password))
         {
             if($newPassword != $confirm)
             {
