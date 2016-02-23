@@ -14,7 +14,7 @@ class Comments extends Model
 
     public function responses()
     {
-        return $this->hasMany('App\Responses');
+        return $this->hasMany('App\Responses','comment_id');
     }
 
     public function user()

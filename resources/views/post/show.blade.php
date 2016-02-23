@@ -82,8 +82,16 @@
                                     <p>{!! $comment->content !!}</p>
 
                                 </div>
-                                @if(!Auth::guest() && ($comment->user_id == Auth::user()->id || Auth::user()->is_admin()))
+
                                     <div class="list-group-item">
+                                        <ul class="list-inline">
+
+                                            <li>
+                                        <p class="response-btn" id="show{{$comment->id}}" onclick='showForm({{$comment->id}})'>
+                                            Replay
+                                        </p>
+                                            </li>
+                                            <li>
                                         @if(!Auth::guest())
                                             {{--{!! $commentrating = $comment->getRating($comment->id, Auth::user()->id) !!}--}}
                                             <?php $commentrating = $comment->getRating($comment->id, Auth::user()->id);  ?>
@@ -101,13 +109,15 @@
                                                 <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
                                                 <a href="/gag/comment/dislike/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                                             @endif
-                                        @endif
                                         No votes:
                                             @if($comment->votes <0)
                                                 0
                                             @else
                                             {{$comment->votes}}
-                                                @endif<p>
+                                                @endif
+                                            </li>
+                                        </ul>
+
                                         {!! Form::open(array('url'=>'/response/store', 'method'=>'POST', 'files'=>true, 'id' => 'id'.$comment->id)) !!}
 
                                         {!! Form::token() !!}
@@ -127,12 +137,42 @@
 
 
                                         {!! Form::close() !!}
+
+
+                                        <p class = 'response-btn' id="show-response-{{$comment->id}}" onclick="showResponses({{$comment->id}})">
+                                            Load more replies...
                                         </p>
 
-                                        <p class="response-btn" id="show{{$comment->id}}" onclick='showForm({{$comment->id}})'>
-                                            Replay
-                                        </p>
-                                        </p>
+                                        <div id="div-{{$comment->id}}">
+                                            @if($comment->responses == [])
+                                                There are no replies.
+                                                @else
+
+                                                <ul style="list-style: none; padding: 0">
+                                                    @foreach($comment->responses as $reply)
+                                                        <li class="panel-body">
+                                                            <div class="list-group">
+                                                                <div class="list-group-item">
+                                                                    <h3>{{ $reply->user->name }}</h3>
+                                                                    <p>{{ $reply->created_at->format('M d,Y \a\t h:i a') }}</p>
+                                                                </div>
+                                                                <div class="list-group-item">
+                                                                    <p>{!! $reply->content  !!} </p>
+                                                                    @if(!Auth::guest() && ($reply->user_id == Auth::user()->id || Auth::user()->is_admin()))
+                                                                        <a href="{{  url('reply/delete/'.$reply->id) }}" class="btn btn-danger">Delete</a>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+
+                                            @endif
+
+                                                <p class = 'response-btn' id="hide-response-{{$comment->id}}" onclick="hideResponses({{$comment->id}})">
+                                                    Hide replies
+                                                </p>
+                                        </div>
                                     </div>
                                 @endif
 
