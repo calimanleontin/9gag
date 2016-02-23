@@ -10,11 +10,11 @@ class Responses extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function comment()
     {
-        return $this->belongsTo('App\Comments');
+        return $this->belongsTo('App\Comments', 'comment_id');
     }
 }

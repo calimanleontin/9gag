@@ -14,7 +14,7 @@ class CommentsResponses extends Migration
     {
         Schema::create('comments_responses',function(Blueprint $table){
 
-            $table->integer('id');
+            $table->increments('id');
             $table->text('content');
             $table->integer('user_id')->unsigned()->default(0);
             $table->foreign('user_id')

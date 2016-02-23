@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/gag/comment/dislike/{post_id}/{comment_id}','CommentController@dislike');
 
     Route::post('/response/store', 'ResponseController@store');
+    Route::get('response/delete/{id}', 'ResponseController@delete');
 
 
     Route::get('/auth/login','UserController@getLogin');

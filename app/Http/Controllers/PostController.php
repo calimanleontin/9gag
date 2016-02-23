@@ -68,7 +68,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $comment = Comments::find(1);
+        $comment = Categories::find(1);
         if($comment == null)
             return redirect('/make-categories')->withErrors('Dude you forget the categories. Again.');
         $title = $request->input('title');

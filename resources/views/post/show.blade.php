@@ -144,6 +144,7 @@
                                         </p>
 
                                         <div id="div-{{$comment->id}}">
+                                            There are no replies.
                                             @if($comment->responses == [])
                                                 There are no replies.
                                                 @else
@@ -159,7 +160,7 @@
                                                                 <div class="list-group-item">
                                                                     <p>{!! $reply->content  !!} </p>
                                                                     @if(!Auth::guest() && ($reply->user_id == Auth::user()->id || Auth::user()->is_admin()))
-                                                                        <a href="{{  url('reply/delete/'.$reply->id) }}" class="btn btn-danger">Delete</a>
+                                                                        <p id='delete-response-{{$reply->id}}' class="btn btn-danger" onclick="deleteResponse({{$reply->id}})">Delete</p>
                                                                     @endif
                                                                 </div>
                                                             </div>
