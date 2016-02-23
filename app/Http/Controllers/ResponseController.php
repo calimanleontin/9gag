@@ -31,11 +31,11 @@ class ResponseController extends Controller
         $user = Auth::user();
         if($user == null)
             return redirect('/')->withErrors('You are not logged in');
-        if($user->id != $response_id or (!$user->is_admin()))
-            return redirect ('/')->withErrors('You have not sufficient permissions');
         $response = Responses::find($response_id);
         if($response == null)
             return redirect('/')->withErrors('The reply does not exist');
+        if($user->id != $response->id and $user->is_admin() == false)
+            return redirect ('/')->withErrors('You have not sufficient permissions');
 
         $comment = $response->comment;
         $post = $comment->post;
