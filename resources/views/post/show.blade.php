@@ -33,7 +33,7 @@
                 <a href="/gag/post/like/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
                 <a href="/gag/post/dislike/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                     @elseif($rating->likes == 1 and $rating->dislikes == 0)
-                        <a href="/gag/post/like/{{$post->id}}"><span class=" glyphicon glyphicon-thumbs-up" green></span></a>
+                        <a href="/gag/post/like/{{$post->id}}"><span class=" glyphicon glyphicon-thumbs-up green"></span></a>
                         <a href="/gag/post/dislike/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                     @elseif($rating->likes == 0 and $rating->dislikes == 1)
                         <a href="/gag/post/like/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
@@ -107,7 +107,7 @@
                                                 <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
                                                 <a href="/gag/comment/dislike/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                                             @elseif($commentrating->likes == 1 and $commentrating->dislikes == 0)
-                                                <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class=" glyphicon glyphicon-thumbs-up green" ></span></a>
+                                                <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up green" ></span></a>
                                                 <a href="/gag/comment/dislike/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                                             @elseif($commentrating->likes == 0 and $commentrating->dislikes == 1)
                                                 <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>

@@ -138,8 +138,8 @@ class PostController extends Controller
             $rating->user_id = $user_id;
             $rating->post_id = $post->id;
             $rating->save();
-            return redirect('/gag/'.$post->slug)->withMessage('Good job');
         }
+        else
         if($rating->likes == 1)
         {
             $post->votes -= 1;
@@ -147,8 +147,8 @@ class PostController extends Controller
             $rating->likes = 0;
             $rating->dislikes = 0;
             $rating->save();
-            return redirect('/gag/'.$post->slug);
         }
+        else
         if($rating->likes == 0)
         {
             if($rating->dislikes == 1)
@@ -165,8 +165,19 @@ class PostController extends Controller
             $rating->likes = 1;
             $rating->dislikes = 0;
             $rating->save();
-            return redirect('/gag/'.$post->slug);
         }
+        if($post->votes < 5)
+            $post->category_id = 3;
+
+
+        if($post->votes >= 5)
+            $post->category_id = 2;
+
+        if($post->votes >= 10)
+            $post->category_id = 1;
+        $post->save();
+        return redirect('/gag/'.$post->slug);
+
     }
 
     public function dislike($id)
@@ -187,8 +198,8 @@ class PostController extends Controller
             $rating->post_id = $post->id;
             $rating->dislikes = 1;
             $rating->save();
-            return redirect('/gag/'.$post->slug)->withMessage('Good job');
         }
+        else
         if($rating->dislikes == 1)
         {
             $post->votes += 1;
@@ -196,8 +207,8 @@ class PostController extends Controller
             $rating->likes = 0;
             $rating->dislikes = 0;
             $rating->save();
-            return redirect('/gag/'.$post->slug);
         }
+        else
         if($rating->dislikes == 0)
         {
             if($rating->likes == 1)
@@ -214,8 +225,21 @@ class PostController extends Controller
             $rating->likes = 0;
             $rating->dislikes = 1;
             $rating->save();
-            return redirect('/gag/'.$post->slug);
         }
+
+        if($post->votes < 5)
+            $post->category_id = 3;
+
+
+        if($post->votes >= 5)
+            $post->category_id = 2;
+
+        if($post->votes >= 10)
+            $post->category_id = 1;
+        $post->save();
+
+        return redirect('/gag/'.$post->slug);
+
     }
 
     public function makeCategories()
@@ -234,5 +258,7 @@ class PostController extends Controller
 
         return redirect('/')->withMessage('Done!');
     }
+
+
 
 }
