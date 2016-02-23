@@ -25,6 +25,7 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
+
     Route::get('/','PostController@index');
     Route::get('/trending', 'PostController@trending');
     Route::get('/fresh', 'PostController@fresh');
@@ -48,6 +49,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/auth/register','UserController@getRegister');
     Route::post('/auth/register','UserController@postRegister');
     Route::get('/auth/logout','UserController@logout');
+    Route::get('/auth/change-password','UserController@getChange');
+    Route::post('/auth/change-password','UserController@postChange');
+    Route::get('/auth/profile', 'UserController@profile');
+    Route::get('/auth/my-all-posts','UserController@allPosts');
+    Route::get('/user/{id}', 'UserController@showUser');
+
 
     Route::get('/post/create','PostController@create');
     Route::post('/post/store','PostController@store');

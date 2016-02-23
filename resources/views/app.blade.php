@@ -110,6 +110,11 @@
                             @if(!Auth::guest() and Auth::user()->is_admin())
                                     <li role="presentation"><a role="menuitem" tabindex="-1" href="/post/manage">Manage photos</a></li>
                             @endif
+
+                                <li>
+                                    <a href="{{ url('/auth/profile') }}">Profile</a>
+                                </li>
+
                         </ul>
                     </div>
                 </li>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Posts;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
@@ -86,5 +87,55 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect('/')->withMessage('Logout successfully');
+    }
+
+    public function getChange()
+    {
+        $user = Auth::user();
+        if($user == null)
+            return redirect('/auth/login')->withErrors('You are not logged in');
+        return view('auth.changePassword');
+    }
+
+    public function profile()
+    {
+
+        $user = Auth::user();
+        if($user == null)
+            return redirect('/auth/login')->withErrors('You are not logged in');
+        $posts = $user->posts;
+        $latest_posts = $posts->take(5);
+        $latest_comments = $user->comments->take(5);
+        $posts_count = count($posts);
+        return view('auth.profile')
+            ->withUser($user)
+            ->with('posts_count', $posts_count)
+            ->with('latest_posts', $latest_posts)
+            ->with('latest_comments',$latest_comments);
+    }
+
+    public function allPosts()
+    {
+        $user = Auth::user();
+        if($user == null)
+            return redirect('/auth/login')->withErrors('You are not logged in');
+        $posts = Posts::where('user_id', $user->id)->paginate(5);
+        return view('home')->with('posts', $posts)->with('title', 'My posts');
+    }
+
+    public function showUser($id)
+    {
+        $user = User::find($id);
+        if($user == null)
+            return redirect('/')->withErrors('The user does not exist anymore');
+        $posts = $user->posts;
+        $latest_posts = $posts->take(5);
+        $latest_comments = $user->comments->take(5);
+        $posts_count = count($posts);
+        return view('auth.profile')
+            ->withUser($user)
+            ->with('posts_count', $posts_count)
+            ->with('latest_posts', $latest_posts)
+            ->with('latest_comments',$latest_comments);
     }
 }
