@@ -65,11 +65,24 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('post/decline/{id}','PostController@decline');
     Route::get('/post/accept/{id}','PostController@accept');
 
-
-
     Route::get('/make-categories','PostController@makeCategories');
 
     Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
+
+    Route::get('/email/{id}',function($id){
+        $user = \App\User::find($id);
+        $name = $user->name;
+        $email = $user->email;
+
+        Mail::send('email.email',['name'=> $name],function($message){
+
+            $message
+                ->to('calimanleontin@gmail.com', 'name')
+                ->from('calimanleontin@gmail.com')
+                ->subject('sall');
+        });
+    });
+
 
 });

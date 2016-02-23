@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use \Auth;
+use Illuminate\Mail;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 
@@ -203,8 +204,6 @@ class UserController extends Controller
             return redirect('/')->withErrors('You have not sufficient permissions');
         $name = Input::get('user');
         $role = Input::get('role');
-//        var_dump($name);
-//        die();
         if($name == 'Select a User')
             return redirect('/auth/management')->withErrors('You did not pick an user.');
         $user = User::where('name', $name)->first();
@@ -219,6 +218,13 @@ class UserController extends Controller
         $user->save();
         return redirect('/')->withMessage('Done');
 
+    }
 
+    public function forgotPassword()
+    {
+        Mail::send('home',['name'=> 'leontin'],function($message){
+
+            $message->to('calimanleontin@gmail.com', 'leontin')->from('calimanleontin@gmail.com')->subject('welcome');
+        });
     }
 }

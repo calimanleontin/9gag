@@ -9,6 +9,7 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "~5.0",
         "laravel/socialite": "~2.0",
+        "intervention/image": "^2.3",
         "guzzle/guzzle": "^3.9"
     },
     "require-dev": {
