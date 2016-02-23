@@ -29,10 +29,18 @@ class CommentsResponses extends Migration
             $table->timestamps();
         });
 
-        Schema::create('responses_rating', function (Blueprint $table){
+        Schema::create('response_rating', function (Blueprint $table){
             $table->increments('id');
             $table->integer('user_id')->unsigned()->default(0);
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->integer('response_id')->unsigned()->default(0);
+            $table->foreign('response_id')
+                ->references('id')
+                ->on('comments_responses')
+                ->onDelete('cascade');
             $table->integer('likes')->default(0);
             $table->integer('dislikes')->default(0);
         });
