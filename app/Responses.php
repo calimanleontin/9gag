@@ -17,4 +17,10 @@ class Responses extends Model
     {
         return $this->belongsTo('App\Comments', 'comment_id');
     }
+
+    public function getRating($user_id, $response_id)
+    {
+        $response = Responses::where('user_id', $user_id)->where('response_id', $response_id)->first();
+        return $response;
+    }
 }
