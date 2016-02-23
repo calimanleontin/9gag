@@ -122,6 +122,14 @@
                                     <a href="{{ url('/auth/profile') }}">Profile</a>
                                 </li>
 
+                            @if(!Auth::guest() and Auth::user()->is_admin())
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex='-1' href="/auth/management">
+                                        Manage users
+                                    </a>
+                                </li>
+                            @endif
+
                         </ul>
                     </div>
                 </li>

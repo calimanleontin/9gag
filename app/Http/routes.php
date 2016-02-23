@@ -53,6 +53,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/auth/change-password','UserController@getChange');
     Route::post('/auth/change-password','UserController@postChange');
     Route::get('/auth/profile', 'UserController@profile');
+    Route::get('/auth/management', 'UserController@getManagement');
+    Route::post('/auth/management', 'UserController@postManagement');
     Route::get('/auth/my-all-posts','UserController@allPosts');
     Route::get('/user/{id}', 'UserController@showUser');
 

@@ -165,4 +165,46 @@ class UserController extends Controller
             ->with('latest_posts', $latest_posts)
             ->with('latest_comments',$latest_comments);
     }
+
+    public function getManagement()
+    {
+        /**
+         * @var $admin User
+         */
+        $admin = Auth::user();
+        if($admin == null or $admin->is_admin() == false)
+            return redirect('/')->withErrors('You have not sufficient permissions');
+        $users = User::all();
+
+        $roles = [ 'admin', 'user', 'moderator'];
+        return view('auth.management')
+            ->with('users', $users)
+            ->with('roles', $roles);
+    }
+
+    public function postManagement(Request $request)
+    {
+        $admin = Auth::user();
+        if($admin == null or $admin->is_admin() == false)
+            return redirect('/')->withErrors('You have not sufficient permissions');
+        $name = Input::get('user');
+        $role = Input::get('role');
+//        var_dump($name);
+//        die();
+        if($name == 'Select a User')
+            return redirect('/auth/management')->withErrors('You did not pick an user.');
+        $user = User::where('name', $name)->first();
+        if($user == null)
+            return redirect('/')->withErrors('Internal Error');
+        if($role == 'Select a role')
+            return redirect('/auth/management')->withErrors('You did not pick a role.');
+        if($role == null)
+            return redirect('/')->withErrors('Internal Error');
+
+        $user->role = $role;
+        $user->save();
+        return redirect('/')->withMessage('Done');
+
+
+    }
 }
