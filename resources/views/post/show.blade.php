@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+    <script src="//cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
     @if(!empty($post))
 
         <div>
@@ -43,7 +44,12 @@
                         <a href="/gag/post/dislike/{{$post->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
                     @endif
                     @endif
-                No votes: {{$votes}}
+                No votes:
+                @if($post->votes < 0)
+                    0
+                @else
+                    {{$post->votes}}
+                @endif
 
             </article>
         </div>
@@ -61,6 +67,9 @@
                     <div class="form-group">
                         <textarea required="required" placeholder="Enter comment here" name = "content" class="form-control">
                         </textarea>
+                        <script>
+                            CKEDITOR.replace( 'content' );
+                        </script>
                     </div>
                     <input type="submit" name='post_comment' class="btn btn-default" value = "Add comment"/>
                 </form>
@@ -93,7 +102,6 @@
                                             </li>
                                             <li>
                                         @if(!Auth::guest())
-                                            {{--{!! $commentrating = $comment->getRating($comment->id, Auth::user()->id) !!}--}}
                                             <?php $commentrating = $comment->getRating($comment->id, Auth::user()->id);  ?>
                                             @if($commentrating == null)
                                                 <a href="/gag/comment/like/{{$post->id}}/{{$comment->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
@@ -118,7 +126,7 @@
                                             </li>
                                         </ul>
 
-                                        {!! Form::open(array('url'=>'/response/store', 'method'=>'POST', 'files'=>true, 'id' => 'id'.$comment->id)) !!}
+                                        {!! Form::open(array('url'=>'/response/store', 'method'=>'POST', 'class'=>'form', 'files'=>true, 'id' => 'id'.$comment->id)) !!}
 
                                         {!! Form::token() !!}
 
@@ -128,7 +136,7 @@
 
                                         <div class="form-group">
                                                 {!! Form::label('content','Reply') !!}
-                                                {!! Form::textarea('content','',['class'=>'form-control']) !!}
+                                                {!! Form::textarea('content','',['class'=>'form-control textarea-small']) !!}
                                             </div>
 
                                         <div class="form-group">
@@ -187,5 +195,4 @@
             @endif
         </div>
 @endsection
-<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-<script>tinymce.init({ selector:'textarea' });</script>
+

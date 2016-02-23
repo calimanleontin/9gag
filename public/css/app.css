@@ -11,6 +11,10 @@ html {
 .green {
   color: green;
 }
+.textarea-small
+{
+  max-height:90px;
+}
 .gray{
   color:gray;
 }
