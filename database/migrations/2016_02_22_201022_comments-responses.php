@@ -28,6 +28,14 @@ class CommentsResponses extends Migration
                 ->onDelete('cascade');
             $table->timestamps();
         });
+
+        Schema::create('responses_rating', function (Blueprint $table){
+            $table->increments('id');
+            $table->integer('user_id')->unsigned()->default(0);
+            $table->integer('response_id')->unsigned()->default(0);
+            $table->integer('likes')->default(0);
+            $table->integer('dislikes')->default(0);
+        });
     }
 
     /**
@@ -37,6 +45,7 @@ class CommentsResponses extends Migration
      */
     public function down()
     {
-        Schema::delete('comments-responses');
+        Schema::drop('comments_responses');
+        Schema::drop('response_rating');
     }
 }
