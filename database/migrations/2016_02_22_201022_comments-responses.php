@@ -26,6 +26,7 @@ class CommentsResponses extends Migration
                 ->references('id')
                 ->on('comments')
                 ->onDelete('cascade');
+            $table->bigInteger('votes')->default(0);
             $table->timestamps();
         });
 

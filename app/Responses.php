@@ -20,7 +20,7 @@ class Responses extends Model
 
     public function getRating($user_id, $response_id)
     {
-        $response = Responses::where('user_id', $user_id)->where('response_id', $response_id)->first();
-        return $response;
+        $rating = ResponseRating::where('user_id', $user_id)->where('response_id', $response_id)->first();
+        return $rating;
     }
 }

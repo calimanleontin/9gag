@@ -164,9 +164,35 @@
                                                                 <div class="list-group-item">
                                                                     <h5>{{ $reply->user->name }}</h5>
                                                                     <h6>{{ $reply->created_at->format('M d,Y \a\t h:i a') }}</h6>
+                                                                    <div>
+                                                                        @if(!Auth::guest())
+                                                                            <?php $rating = $reply->getRating($reply->id, Auth::user()->id);  ?>
+                                                                            @if($rating == null)
+                                                                                <a href="/gag/reply/like/{{$reply->id}}/{{$reply->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                                                <a href="/gag/reply/dislike/{{$reply->id}}/{{$reply->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                                                            @elseif($rating->likes == 1 and $rating->dislikes == 0)
+                                                                                <a href="/gag/reply/like/{{$reply->id}}/{{$reply->id}}"><span class=" glyphicon glyphicon-thumbs-up green" ></span></a>
+                                                                                <a href="/gag/reply/dislike/{{$reply->id}}/{{$reply->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                                                            @elseif($rating->likes == 0 and $rating->dislikes == 1)
+                                                                                <a href="/gag/reply/like/{{$reply->id}}/{{$reply->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                                                <a href="/gag/reply/dislike/{{$reply->id}}/{{$reply->id}}"><span class="glyphicon glyphicon-thumbs-down red"></span></a>
+                                                                            @else
+
+                                                                                <a href="/gag/reply/like/{{$reply->id}}/{{$reply->id}}"><span class="glyphicon glyphicon-thumbs-up gray"></span></a>
+                                                                                <a href="/gag/reply/dislike/{{$reply->id}}/{{$reply->id}}"><span class="glyphicon glyphicon-thumbs-down gray"></span></a>
+                                                                            @endif
+                                                                        @endif
+                                                                        No votes:
+                                                                        @if($reply->votes <0)
+                                                                            0
+                                                                        @else
+                                                                            {{$reply->votes}}
+                                                                        @endif
+                                                                    </div>
                                                                 </div>
                                                                 <div class="list-group-item">
                                                                     <p>{!! $reply->content  !!} </p>
+
                                                                     @if(!Auth::guest() && ($reply->user_id == Auth::user()->id || Auth::user()->is_admin()))
                                                                         <p id='delete-response-{{$reply->id}}' class="btn btn-danger" onclick="deleteResponse({{$reply->id}})">Delete</p>
                                                                     @endif
