@@ -153,8 +153,8 @@
                                                         <li class="panel-body">
                                                             <div class="list-group">
                                                                 <div class="list-group-item">
-                                                                    <h3>{{ $reply->user->name }}</h3>
-                                                                    <p>{{ $reply->created_at->format('M d,Y \a\t h:i a') }}</p>
+                                                                    <h5>{{ $reply->user->name }}</h5>
+                                                                    <h6>{{ $reply->created_at->format('M d,Y \a\t h:i a') }}</h6>
                                                                 </div>
                                                                 <div class="list-group-item">
                                                                     <p>{!! $reply->content  !!} </p>
