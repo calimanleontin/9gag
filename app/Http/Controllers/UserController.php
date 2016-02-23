@@ -97,6 +97,33 @@ class UserController extends Controller
         return view('auth.changePassword');
     }
 
+    public function postChange(Request $request)
+    {
+        $user = Auth::user();
+        if($user == null)
+            return redirect('/auth/login')->withErrors('You are not logged in');
+        $oldPassword = Input::get('oldPassword');
+        $newPassword = Input::get('newPassword');
+        $confirm = Input::get('confirm');
+
+        if(Hash::check($oldPassword, $user->password))
+        {
+            if($newPassword != $confirm)
+            {
+                return redirect('/auth/change-password')->withErrors('Passwords does not match');
+            }
+            else
+            {
+                $newPassword = bcrypt($newPassword);
+                $user->password = $newPassword;
+                $user->save();
+                return redirect('/auth/profile')->withMessage('Password changed successfully');
+            }
+        }
+        else
+            return redirect('/auth/change-password')->withErrors('Wrong Password');
+    }
+
     public function profile()
     {
 
