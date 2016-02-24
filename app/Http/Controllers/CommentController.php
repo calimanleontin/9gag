@@ -140,4 +140,24 @@ class CommentController extends Controller
             return redirect('/gag/'.$post->slug)->withMessage('Success');
         }
     }
+
+    public function delete($id)
+    {
+        $user = Auth::user();
+        if($user == null)
+            return redirect('/auth/login')->withErrors('You are not logged in');
+        $comment = Comments::find($id);
+        if($comment == null)
+            return redirect('/')->withErrors('The comment does not exist');
+        $post = $comment->post;
+        if($post == null)
+            return redirect('/')->withErrors('Internal error');
+        if($comment->id == $user->id or $user->is_admin())
+        {
+            $comment->delete();
+            return redirect('/gag/'.$post->slug)->withMessage('Deleted');
+        }
+        else
+            return redirect('/gag/'.$post->slug)->withErrors('You have not sufficient permissions');
+    }
 }

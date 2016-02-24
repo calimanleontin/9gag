@@ -43,9 +43,22 @@ function deleteResponse(id)
     if (confirm('Are you sure you want to delete the replay?')) {
         if (!location.origin)
             location.origin = location.protocol + "//" + location.host;
-        var redirect = location.origin.concat('/gag /response/delete/');
+        var redirect = location.origin.concat('/gag/response/delete/');
         redirect = redirect.concat(id)
          window.location.replace(redirect);
+    } else {
+        // Do nothing!
+    }
+}
+
+function deleteComment(id)
+{
+    if (confirm('Are you sure you want to delete the comment?')) {
+        if (!location.origin)
+            location.origin = location.protocol + "//" + location.host;
+        var redirect = location.origin.concat('/gag/comment/delete/');
+        redirect = redirect.concat(id)
+        window.location.replace(redirect);
     } else {
         // Do nothing!
     }

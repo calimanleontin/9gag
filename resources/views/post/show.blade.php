@@ -84,8 +84,9 @@
                                 <div class="list-group-item">
                                     By<h4>{{ $comment->user->name }}</h4>
                                     <p>{{ $comment->created_at->format('M d,Y \a\t h:i a') }}</p>
-                                    <a href="{{  url('comment/delete/'.$comment->id) }}" class="btn btn-danger">Delete</a>
-
+                                    @if(!Auth::guest() and ($comment->id == Auth::user()->id or Auth::user()->is_admin()))
+                                        <a id='comment{{$comment->id}}' class="btn btn-danger" onclick="deleteComment({{$comment->id}})">Delete</a>
+                                    @endif
                                 </div>
                                 <div class="list-group-item">
                                     <p>{!! $comment->content !!}</p>
