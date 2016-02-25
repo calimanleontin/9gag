@@ -18,19 +18,35 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Posts::where('category_id',1)->where('accepted',true)->paginate(5);
+        if(\Cache::has('hot'))
+            $posts = \Cache::get('hot');
+        else
+        {
+            $posts = Posts::where('category_id',1)->where('accepted',true)->paginate(5);
+            \Cache::add('hot', $posts, 10);
+        }
         return view('home')->with('posts',$posts)->with('title','Hot page');
     }
 
     public function trending()
     {
-        $posts = Posts::where('category_id',2)->where('accepted',true)->paginate(5);
+        if(\Cache::has('trending'))
+            $posts = \Cache::get('trending');
+        else {
+            $posts = Posts::where('category_id', 2)->where('accepted', true)->paginate(5);
+            \Cache::add('trending', $posts, 10);
+        }
         return view('home')->with('posts',$posts)->with('title','Trending page');
     }
 
     public function fresh()
     {
-        $posts = Posts::where('category_id',3)->where('accepted',true)->paginate(5);
+        if(\Cache::has('fresh'))
+            $posts = \Cache::get('fresh');
+        else {
+            $posts = Posts::where('category_id', 3)->where('accepted', true)->paginate(5);
+            \Cache::add('fresh', $posts, 10);
+        }
         return view('home')->with('posts',$posts)->with('title','Fresh page');
     }
 
