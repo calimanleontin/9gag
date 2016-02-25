@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Input;
 use App\Posts;
 use App\User;
 use App\Categories;
+use Illuminate\Support\Str;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -265,6 +266,23 @@ class PostController extends Controller
         $category->save();
 
         return redirect('/')->withMessage('Done!');
+    }
+
+    public function getPosts()
+    {
+        $term = Str::lower(Input::get('term'));
+        $posts = Posts::all();
+        $data = array();
+        foreach($posts as $post)
+            $data[$post->title] = $post->title;
+        $return_array = array();
+
+        foreach ($data as $k => $v) {
+            if (strpos(Str::lower($v), $term) !== FALSE) {
+                $return_array[] = array('value' => $v, 'id' =>$k);
+            }
+        }
+        return \Response::json($return_array);
     }
 
 

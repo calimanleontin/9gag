@@ -26,6 +26,8 @@
 
 Route::group(['middleware' => ['web']], function () {
 
+    Route::get('getPosts','PostController@getPosts');
+
     Route::get('/','PostController@index');
     Route::get('/trending', 'PostController@trending');
     Route::get('/fresh', 'PostController@fresh');

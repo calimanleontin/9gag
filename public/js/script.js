@@ -63,3 +63,13 @@ function deleteComment(id)
         // Do nothing!
     }
 }
+
+$(function() {
+    $("#auto").autocomplete({
+        source: "getPosts",
+        minLength: 1,
+        select: function( event, ui ) {
+            $('#response').val(ui.item.id);
+        }
+    });
+});

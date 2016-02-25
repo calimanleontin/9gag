@@ -45,6 +45,11 @@
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
 
+    <link rel="stylesheet"href="//codeorigin.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//codeorigin.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+
+
     <title>9GAG</title>
     <!-- Fonts -->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -82,7 +87,7 @@
 
                 <li>
                     <form action="/search" method = 'get' class="form-group form form-inline search-down">
-                        <input type="text" name="q" placeholder="Search..." class="form-control">
+                        <input type="text" name='q' id='auto' placeholder="Search..." class="form-control">
                         <input type="submit" class='form-control left-search' value="Search">
                     </form>
                 </li>
