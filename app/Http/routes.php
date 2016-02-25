@@ -26,7 +26,7 @@
 
 Route::group(['middleware' => ['web']], function () {
 
-    Route::get('getPosts','PostController@getPosts');
+    Route::get('/gag/getPosts','PostController@getPosts');
 
     Route::get('/','PostController@index');
     Route::get('/trending', 'PostController@trending');
@@ -64,7 +64,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/post/create','PostController@create');
     Route::post('/post/store','PostController@store');
     Route::get('/post/manage','PostController@getManage');
-    Route::get('post/decline/{id}','PostController@decline');
+    Route::get('/post/decline/{id}','PostController@decline');
     Route::get('/post/accept/{id}','PostController@accept');
 
     Route::get('/make-categories','PostController@makeCategories');

@@ -66,7 +66,7 @@ function deleteComment(id)
 
 $(function() {
     $("#auto").autocomplete({
-        source: "getPosts",
+        source: "/gag/getPosts",
         minLength: 1,
         select: function( event, ui ) {
             $('#response').val(ui.item.id);
